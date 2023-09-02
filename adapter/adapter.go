@@ -25,7 +25,8 @@ import (
 var UnifiedDelay = atomic.NewBool(false)
 
 const (
-	defaultHistoriesNum = 10
+	defaultHistoriesNum     = 10
+	defaultMaxLatencyUrlNum = C.DefaultMaxHealthCheckUrlNum << 1
 )
 
 type extraProxyState struct {
@@ -355,7 +356,7 @@ func (p *Proxy) determineFinalStoreType(store C.DelayHistoryStoreType, url strin
 		return C.OriginalHistory
 	}
 
-	if p.extra.Size() < 2*C.DefaultMaxHealthCheckUrlNum {
+	if p.extra.Size() < defaultMaxLatencyUrlNum {
 		return C.ExtraHistory
 	}
 
